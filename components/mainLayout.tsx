@@ -7,10 +7,11 @@ import { MdFastfood } from "react-icons/md";
 import { PiBuildingsBold } from "react-icons/pi";
 import { GrProjects } from "react-icons/gr";
 import { FaAngleRight } from "react-icons/fa6";
+import { SlCalender } from "react-icons/sl";
+
 import Image from "next/image";
 
 import Link from "next/link";
-import MainHeader from "./mainHeader";
 
 type Props = {
   children: React.ReactNode;
@@ -18,8 +19,6 @@ type Props = {
 const MainLayout = ({ children }: Props) => {
   return (
     <div className="bg-[#1D2132] w-full min-h-screen">
-      {/* <MainHeader /> */}
-
       <div className="flex justify-start items-start px-5">
         <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
           <ul>
@@ -45,6 +44,10 @@ const MainLayout = ({ children }: Props) => {
               <MdLocalMovies className=" mr-2 text-xl" />
               <Link href="/movies">Movies</Link>
             </li>{" "}
+            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+              <SlCalender className=" mr-2 text-xl" />
+              <Link href="/schedules">Schedules</Link>
+            </li>
             <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
               <PiBuildingsBold className=" mr-2 text-xl" />
               <Link href="/halls">Halls</Link>

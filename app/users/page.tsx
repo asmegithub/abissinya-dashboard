@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import SearchBar from "@/components/searchBar/searchBar";
-import AddMovie from "@/components/AddMovie";
+import AddUser from "@/components/addUserModal/addUser";
 
 const UsersPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -26,7 +26,7 @@ const UsersPage = () => {
         <div>
           <dialog className="modal bg-gray-700 " ref={dialogRef}>
             <div className="modal-box max-w-96 rounded-2xl">
-              <AddMovie />
+              <AddUser />
             </div>
           </dialog>
         </div>
@@ -37,14 +37,13 @@ const UsersPage = () => {
           Add User
         </button>
       </div>
-      <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[500px]">
+      <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
         <li className="flex border-b-2  justify-start p-4 mx-4 mb-5 ">
           {" "}
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE] ">Name</div>
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE] ">E-mail</div>
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE] ">Role</div>
         </li>
-
         <li className="flex justify-start pb-5">
           <div className="flex w-4/12 gap-2  ">
             {" "}
@@ -61,7 +60,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">abrham@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold ">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -81,7 +80,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold ">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white ">
             Remove
           </button>
         </li>
@@ -101,7 +100,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -121,7 +120,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -141,7 +140,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -161,7 +160,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">abrham@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -181,7 +180,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -201,7 +200,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -221,7 +220,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>
@@ -241,7 +240,7 @@ const UsersPage = () => {
           </div>
           <div className="pt-2 w-4/12  ">asmare@gmail.com</div>
           <div className="pt-2 w-3/12 ">Admin</div>
-          <button className="w-1/12 text-red-500 rounded-lg font-bold ">
+          <button className="w-1/12 text-red-500 rounded-lg font-bold  border border-red-500 hover:bg-red-500 hover:text-white">
             Remove
           </button>
         </li>

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import avatarURL from "/public/images/chapa.png";
 import Image from "next/image";
 
-const AddMovie = () => {
+const AddUser = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("");
@@ -59,4 +59,4 @@ const AddMovie = () => {
   );
 };
 
-export default AddMovie;
+export default AddUser;
