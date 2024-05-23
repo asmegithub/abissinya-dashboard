@@ -22,7 +22,7 @@ const MoviesPage = () => {
       <div className="flex justify-between mr-5 my-5">
         <div className=" ">
           <button className="flex gap-2 text-xl font-bold border border-blue-500 rounded-lg px-6 py-2 ">
-            Admin
+            All
             <FaAngleDown className="text-blue-500 text-3xl" />
           </button>{" "}
         </div>
