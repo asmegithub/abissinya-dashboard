@@ -10,6 +10,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 
 import Image from "next/image";
+import router, { useRouter } from "next/router";
 
 import Link from "next/link";
 
@@ -17,6 +18,11 @@ type Props = {
   children: React.ReactNode;
 };
 const MainLayout = ({ children }: Props) => {
+  const getLinkClasses = (path: string) =>
+    router.pathname === path
+      ? "bg-blue-200 text-blue-800"
+      : "hover:bg-blue-200 hover:text-blue-800";
+
   return (
     <div className="bg-[#1D2132] w-full min-h-screen">
       <div className="flex justify-start items-start px-5">
@@ -32,7 +38,13 @@ const MainLayout = ({ children }: Props) => {
               />
               <h3 className="text-white ml-5 text-2xl">Abissinya Ticketing</h3>
             </li>
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid rounded-lg my-2 p-2 ${
+                router.pathname === "/"
+                  ? "bg-blue-200 text-blue-800"
+                  : "hover:bg-blue-200 hover:text-blue-800"
+              }`}
+            >
               <CiHome className=" mr-2 text-xl " />
               <Link href="/">Home</Link>
             </li>
