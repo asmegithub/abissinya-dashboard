@@ -1,5 +1,4 @@
 "use client";
-
 import { CiHome } from "react-icons/ci";
 import { FaUsers } from "react-icons/fa";
 import { MdLocalMovies } from "react-icons/md";
@@ -8,20 +7,32 @@ import { PiBuildingsBold } from "react-icons/pi";
 import { GrProjects } from "react-icons/gr";
 import { FaAngleRight } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
-
 import Image from "next/image";
-// import router, { useRouter } from "next/router";
-
+import { usePathname } from "next/navigation"; // Import usePathname from next/navigation
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
 };
+
 const MainLayout = ({ children }: Props) => {
-  // const getLinkClasses = (path: string) =>
-  //   router.pathname === path
-  //     ? "bg-blue-200 text-blue-800"
-  //     : "hover:bg-blue-200 hover:text-blue-800";
+  const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname(); // Get current pathname using usePathname()
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Function to determine link classes based on current path
+  const getLinkClasses = (path: string) =>
+    pathname === path
+      ? "bg-blue-200 text-blue-800"
+      : "hover:bg-blue-200 hover:text-blue-800";
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="bg-[#1D2132] w-full min-h-screen">
@@ -39,28 +50,50 @@ const MainLayout = ({ children }: Props) => {
               <h3 className="text-white ml-5 text-2xl">Abissinya Ticketing</h3>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid rounded-lg my-2 p-2    `}
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid rounded-lg my-2 p-2 ${getLinkClasses(
+                "/"
+              )}`}
             >
               <CiHome className=" mr-2 text-xl " />
               <Link href="/">Home</Link>
             </li>
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/users"
+              )}`}
+            >
               <FaUsers className=" mr-2 text-xl" />
               <Link href="/users">Users</Link>
-            </li>{" "}
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/movies"
+              )}`}
+            >
               <MdLocalMovies className=" mr-2 text-xl" />
               <Link href="/movies">Movies</Link>
-            </li>{" "}
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/schedules"
+              )}`}
+            >
               <SlCalender className=" mr-2 text-xl" />
               <Link href="/schedules">Schedules</Link>
             </li>
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/halls"
+              )}`}
+            >
               <PiBuildingsBold className=" mr-2 text-xl" />
               <Link href="/halls">Halls</Link>
-            </li>{" "}
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/snacks"
+              )}`}
+            >
               <MdFastfood className=" mr-2 text-xl" />
               <Link href="/snacks">Foods & Drinks</Link>
             </li>
@@ -72,7 +105,7 @@ const MainLayout = ({ children }: Props) => {
           </ul>
         </aside>
 
-        <main className="flex-1 mt-40 mx-10">{children} </main>
+        <main className="flex-1 mt-40 mx-10">{children}</main>
       </div>
     </div>
   );

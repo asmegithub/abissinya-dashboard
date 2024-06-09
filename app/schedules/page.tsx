@@ -12,21 +12,17 @@ type Schedule = {
   hall: string;
   showDate: string;
 };
-
 const SchedulesPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-
   const openModal = () => {
     if (dialogRef.current) {
       dialogRef.current.showModal();
     }
   };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
-
   const schedules: Schedule[] = [
     {
       name: "ትዝታ የገጠር ድራማ ",
