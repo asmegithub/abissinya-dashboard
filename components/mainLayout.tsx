@@ -4,6 +4,10 @@ import { FaUsers } from "react-icons/fa";
 import { MdLocalMovies } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { PiBuildingsBold } from "react-icons/pi";
+import { MdRateReview } from "react-icons/md";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlinePayments } from "react-icons/md";
+
 import { GrProjects } from "react-icons/gr";
 import { FaAngleRight } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
@@ -26,9 +30,7 @@ const MainLayout = ({ children }: Props) => {
 
   // Function to determine link classes based on current path
   const getLinkClasses = (path: string) =>
-    pathname === path
-      ? "bg-blue-200 text-blue-800"
-      : "hover:bg-blue-200 hover:text-blue-800";
+    pathname === path ? "text-blue-800" : "hover:text-blue-800";
 
   if (!isMounted) {
     return null;
@@ -39,7 +41,7 @@ const MainLayout = ({ children }: Props) => {
       <div className="flex justify-start items-start px-5">
         <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
           <ul>
-            <li className=" mb-20">
+            <li className=" mb-16">
               <Image
                 className=" m-10  ml-5 mb-0"
                 src="/images/logo.png"
@@ -58,7 +60,7 @@ const MainLayout = ({ children }: Props) => {
               <Link href="/">Home</Link>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/users"
               )}`}
             >
@@ -66,7 +68,7 @@ const MainLayout = ({ children }: Props) => {
               <Link href="/users">Users</Link>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/movies"
               )}`}
             >
@@ -74,7 +76,7 @@ const MainLayout = ({ children }: Props) => {
               <Link href="/movies">Movies</Link>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/schedules"
               )}`}
             >
@@ -82,7 +84,7 @@ const MainLayout = ({ children }: Props) => {
               <Link href="/schedules">Schedules</Link>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/halls"
               )}`}
             >
@@ -90,18 +92,58 @@ const MainLayout = ({ children }: Props) => {
               <Link href="/halls">Halls</Link>
             </li>
             <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/snacks"
               )}`}
             >
               <MdFastfood className=" mr-2 text-xl" />
               <Link href="/snacks">Foods & Drinks</Link>
             </li>
-            <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:bg-blue-200 hover:text-blue-800 rounded-lg my-2 p-2">
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/notifications"
+              )}`}
+            >
+              <IoMdNotificationsOutline className=" mr-2 text-3xl" />
+              <Link href="/notifications">Notifications</Link>
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/orders"
+              )}`}
+            >
+              <MdFastfood className=" mr-2 text-xl" />
+              <Link href="/orders">Orders</Link>
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/reviews"
+              )}`}
+            >
+              <MdRateReview className=" mr-2 text-xl" />
+              <Link href="/reviews">Reviews</Link>
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/payment"
+              )}`}
+            >
+              <MdOutlinePayments className=" mr-2 text-xl" />
+              <Link href="/snacks">Payment</Link>
+            </li>
+            <li
+              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                "/stars"
+              )}`}
+            >
+              <FaUsers className=" mr-2 text-xl" />
+              <Link href="/stars">Stars</Link>
+            </li>
+            {/* <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2">
               <GrProjects className=" mr-2 text-xl" />
               <h3 className="flex-1">Projects</h3>
               <FaAngleRight />
-            </li>
+            </li> */}
           </ul>
         </aside>
 

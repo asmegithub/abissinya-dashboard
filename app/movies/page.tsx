@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
@@ -8,14 +8,21 @@ import SearchBar from "@/components/searchBar/searchBar";
 import AddMovie from "@/components/addMovieModal/addMovie";
 
 type Movie = {
-  name: string;
-  genre: string;
-  releasedDate: string;
+  _id: string;
+  title: String;
+  describtion: String;
+  genre: string[];
+  poster: String;
+  country: string;
+  releaseDate: string;
+  reviewId: string;
+  starsId: string;
 };
 
 const MoviesPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown menu
+  const [moviedata, setMovieData] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 
@@ -24,73 +31,70 @@ const MoviesPage = () => {
       dialogRef.current.showModal();
     }
   };
+  useEffect(() => {
+    const getMovies = async () => {
+      try {
+        const query = await fetch(
+          "https://abissinia-backend.vercel.app/api/movies"
+        );
+        const response = await query.json();
+        const moviesArray = response.movies; // Access the movies array from the resolved response
+        console.log(moviesArray);
+        setMovieData(moviesArray);
+      } catch (error) {
+        console.error("Error in fetching movies:", error);
+      }
+    };
+    getMovies();
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
-
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
   const handleGenreFilter = (genre: string) => {
     setSelectedGenre(genre);
     setIsDropdownOpen(false); // Close dropdown after selection
   };
-  const movies: Movie[] = [
-    {
-      name: "ትዝታ",
-      genre: "ፊልም",
-      releasedDate: "ግንቦት 19 2024",
-    },
-    {
-      name: "ስቄ ልሙት",
-      genre: "ፊልም",
-      releasedDate: "ሚያዝያ 19 2016",
-    },
-    {
-      name: "ድርድር",
-      genre: "ፊልም",
-      releasedDate: "ሚያዝያ 19 2016",
-    },
-    {
-      name: "የኔ ልጆች",
-      genre: "ፊልም",
-      releasedDate: "ጥር 2016",
-    },
-    {
-      name: "ትዝታ part-2",
-      genre: "Action",
-      releasedDate: "ግንቦት 19 2024",
-    },
-    {
-      name: "ስቄ ልሙት",
-      genre: "Action",
-      releasedDate: "ሚያዝያ 19 2016",
-    },
 
-    {
-      name: "New Amharic Horrer",
-      genre: "Action",
-      releasedDate: "ሚያዝያ 19 2016",
-    },
-    {
-      name: "ድርድር",
-      genre: "ድራማ",
-      releasedDate: "ሚያዝያ 19 2016",
-    },
-    {
-      name: "የኔ ልጆች",
-      genre: "ድራማ",
-      releasedDate: "ጥር 2016",
-    },
-  ];
+  const deleteMovie = async (id: string) => {
+    try {
+      const response = await fetch(
+        `https://abissinia-backend.vercel.app/api/movies/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setMovieData(moviedata.filter((movie) => movie._id !== id));
+        console.log("Movie deleted successfully");
+      } else {
+        console.error("Failed to delete the movie");
+      }
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  };
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    };
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    // Customize the date format to remove the comma
+    return formattedDate.replace(",", "");
+  };
   // Filter movies based on search term and selected genre
-  const filteredMovies = movies.filter((movie) => {
-    if (selectedGenre && movie.genre !== selectedGenre) {
+  const filteredMovies = moviedata.filter((movie) => {
+    if (selectedGenre && movie.genre.includes(selectedGenre)) {
       return false; // Skip if genre doesn't match selected genre
     }
-    if (searchTerm && !movie.name.toLowerCase().includes(searchTerm)) {
+    if (searchTerm && !movie.title.toLowerCase().includes(searchTerm)) {
       return false; // Skip if movie name doesn't match search term
     }
     return true; // Include movie in filtered list
@@ -155,29 +159,38 @@ const MoviesPage = () => {
             Released Date
           </div>
         </li>
+
         {filteredMovies.map((movie, index) => (
-          <li key={index} className="flex justify-start pb-5">
+          <li key={movie._id} className="flex justify-start pb-5">
             <div className="flex w-1/3 gap-2">
-              <div className="">
+              <div className="relative w-10 h-10 overflow-hidden rounded-full">
                 <Image
                   className="rounded-full"
-                  src="/images/movie.png"
-                  width={40}
-                  height={40}
-                  alt="Logo"
+                  src={`${movie.poster}`}
+                  alt={`${movie.title} poster`}
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
-              <p className="pt-2">{movie.name}</p>
+              <p className="pt-2">{movie.title}</p>
             </div>
-            <div className="pt-2 w-3/12 pl-3 font-bold">{movie.genre}</div>
             <div className="pt-2 w-3/12 pl-3 font-bold">
-              {movie.releasedDate}
+              {movie.genre.map((genre) => genre + ", ")}
+            </div>
+
+            <div className="pt-2 w-3/12 pl-3 font-bold">
+              {formatDate(movie.releaseDate)}
             </div>
             <button className="flex text-lg  pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white ">
               <MdModeEdit className="text-white text-2xl pt-1" />
               Edit
             </button>
-            <button className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white ">
+            <button
+              className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white "
+              onClick={() => {
+                deleteMovie(movie._id);
+              }}
+            >
               <MdDeleteForever className="text-white text-2xl pt-1" />
               Delete
             </button>

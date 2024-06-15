@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import SearchBar from "@/components/searchBar/searchBar";
@@ -8,6 +8,7 @@ import AddUser from "@/components/addUserModal/addUser";
 const UsersPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -22,60 +23,59 @@ const UsersPage = () => {
     setIsDropdownOpen(false);
   };
 
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const query = await fetch(
+          "https://abissinia-backend.vercel.app/api/users"
+        );
+        const users = await query.json();
+        setUsers(users);
+      } catch (error) {
+        console.error("Error in fetching users:", error);
+      }
+    };
+    getUsers();
+  }, []);
+
   type User = {
-    name: string;
+    _id: string;
+    avatar: string;
+    username: string;
     email: string;
+    password: string;
     role: string;
   };
-  const users: User[] = [
-    {
-      name: "Abrham Belayneh",
-      email: "abrham@gmail.com",
-      role: "Admin",
-    },
-    {
-      name: "Asmare Zelalem",
-      email: "asme@gmail.com",
-      role: "Admin",
-    },
-    {
-      name: "Haileamlak Belachew",
-      email: "haile@gmail.com",
-      role: "Admin",
-    },
-    {
-      name: "Helina Bikes ",
-      email: "helu@gmail.com",
-      role: "Admin",
-    },
-    {
-      name: "Tihtinaw Girumnew",
-      email: "tit01@gmail.com",
-      role: "User",
-    },
-    {
-      name: "Edilu sikena",
-      email: "edil02@gmail.com",
-      role: "user",
-    },
-    {
-      name: "Yihies Haileamlak",
-      email: "yihi@gmail.com",
-      role: "Actor",
-    },
-    {
-      name: "Tamene Bikes ",
-      email: "tami@gmail.com",
-      role: "Actor",
-    },
-  ];
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+  const handleRemoveUser = async (id: string) => {
+    try {
+      const response = await fetch(
+        `https://abissinia-backend.vercel.app/api/users/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server error: ${response.status} ${errorText}`);
+      }
+
+      // Update the user list after successful deletion
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      alert("User deleted successfully");
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert(`An expected Error in deleting user`);
+    }
   };
   const filteredUsers = users.filter(
     (user) =>
       (selectedRole ? user.role === selectedRole : true) &&
-      (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()))
     // || user.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -123,12 +123,13 @@ const UsersPage = () => {
             </div>
           </dialog>
         </div>
-        <button
+
+        {/* <button
           onClick={openModal}
           className="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg"
         >
           Add User
-        </button>
+        </button> */}
       </div>
       <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
         <li className="flex border-b-2 justify-start p-4 mx-4 mb-5">
@@ -137,27 +138,37 @@ const UsersPage = () => {
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Role</div>
         </li>
 
-        {filteredUsers.map((user) => (
-          <li key={user.email} className="flex justify-start pb-5">
-            <div className="flex w-4/12 gap-2">
-              <div>
-                <Image
-                  className="rounded-full"
-                  src="/images/profile.png"
-                  width={40}
-                  height={40}
-                  alt="Profile"
-                />
+        {filteredUsers.map((user) => {
+          return (
+            <li key={user.email} className="flex justify-start pb-5">
+              <div className="flex w-4/12 gap-2">
+                <div className="relative w-10 h-10 overflow-hidden rounded-full">
+                  <Image
+                    className="rounded-full"
+                    src={`${user.avatar}`}
+                    alt={`${user.username} poster`}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+                <p className="pt-2">{user.username}</p>
               </div>
-              <p className="pt-2">{user.name}</p>
-            </div>
-            <div className="pt-2 w-4/12">{user.email}</div>
-            <div className="pt-2 w-3/12">{user.role}</div>
-            <button className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white">
-              Remove
-            </button>
-          </li>
-        ))}
+              <div className="pt-2 w-4/12">{user.email}</div>
+              <div className="pt-2 w-3/12">
+                {user.role ? user.role : "User"}
+              </div>
+              <button
+                className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white"
+                onSubmit={() => {
+                  handleRemoveUser(user._id);
+                  // setIsDropdownOpen(!isDropdownOpen);
+                }}
+              >
+                Remove
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
