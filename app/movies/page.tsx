@@ -14,17 +14,10 @@ type Movie = {
 };
 
 const MoviesPage = () => {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const [showModal, setShowModal] = React.useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown menu
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-
-  const openModal = () => {
-    if (dialogRef.current) {
-      dialogRef.current.showModal();
-    }
-  };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
@@ -112,20 +105,19 @@ const MoviesPage = () => {
             <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-lg">
               <button
                 onClick={() => handleGenreFilter("ፊልም")}
-                className={`
-                block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl`}
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 ፊልም
               </button>
               <button
                 onClick={() => handleGenreFilter("Action")}
-                className=" block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 Action
               </button>
               <button
                 onClick={() => handleGenreFilter("ድራማ")}
-                className=" block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 ድራማ
               </button>
@@ -134,21 +126,24 @@ const MoviesPage = () => {
           )}
         </div>
         <div>
-          <dialog className="modal bg-gray-700" ref={dialogRef}>
-            <div className="modal-box max-w-96 rounded-2xl">
-              <AddMovie />
+          {showModal && (
+            <div className="fixed inset-0 z-50 overflow-auto bg-gray-700 bg-opacity-50 flex">
+              <div className="relative p-8 bg-white w-full max-w-3xl m-auto flex-col flex rounded-lg">
+                <AddMovie setShowModal={setShowModal} />
+              </div>
             </div>
-          </dialog>
+          )}
         </div>
         <button
-          onClick={openModal}
+          type="button"
+          onClick={() => setShowModal(true)}
           className="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg"
         >
           Add Movie
         </button>
       </div>
       <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
-        <li className="flex border-b-2  justify-start p-4 mb-5">
+        <li className="flex border-b-2 justify-start p-4 mb-5">
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Name</div>
           <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Genre</div>
           <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">
@@ -173,11 +168,11 @@ const MoviesPage = () => {
             <div className="pt-2 w-3/12 pl-3 font-bold">
               {movie.releasedDate}
             </div>
-            <button className="flex text-lg  pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white ">
+            <button className="flex text-lg pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white">
               <MdModeEdit className="text-white text-2xl pt-1" />
               Edit
             </button>
-            <button className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white ">
+            <button className="flex text-lg pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white">
               <MdDeleteForever className="text-white text-2xl pt-1" />
               Delete
             </button>
