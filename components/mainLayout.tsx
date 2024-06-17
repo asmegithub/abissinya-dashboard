@@ -101,14 +101,6 @@ const MainLayout = ({ children }: Props) => {
             </li>
             <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/notifications"
-              )}`}
-            >
-              <IoMdNotificationsOutline className=" mr-2 text-3xl" />
-              <Link href="/notifications">Notifications</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/orders"
               )}`}
             >
@@ -123,14 +115,14 @@ const MainLayout = ({ children }: Props) => {
               <MdRateReview className=" mr-2 text-xl" />
               <Link href="/reviews">Reviews</Link>
             </li>
-            <li
+            {/* <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/payment"
               )}`}
             >
               <MdOutlinePayments className=" mr-2 text-xl" />
               <Link href="/snacks">Payment</Link>
-            </li>
+            </li> */}
             <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/stars"

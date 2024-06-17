@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MainLayout from "../components/mainLayout";
 import MenuContextProvider from "@/context/menuContext";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className=" ">
         <MenuContextProvider>
+          <ToastContainer />
           <MainLayout>{children}</MainLayout>
         </MenuContextProvider>
       </body>

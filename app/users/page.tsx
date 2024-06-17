@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import SearchBar from "@/components/searchBar/searchBar";
 import AddUser from "@/components/addUserModal/addUser";
+import { toast } from "react-toastify";
 
 const UsersPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
@@ -63,6 +64,7 @@ const UsersPage = () => {
         const errorText = await response.text();
         throw new Error(`Server error: ${response.status} ${errorText}`);
       }
+      toast.success("Successfully deleted!");
 
       // Update the user list after successful deletion
       setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));

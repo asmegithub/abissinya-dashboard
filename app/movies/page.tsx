@@ -3,9 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { FaAngleDown } from "react-icons/fa";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
+import { useRouter } from "next/navigation"; // Correct import for App Router
 
 import SearchBar from "@/components/searchBar/searchBar";
 import AddMovie from "@/components/addMovieModal/addMovie";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 type Movie = {
   _id: string;
@@ -20,34 +23,14 @@ type Movie = {
 };
 
 const MoviesPage = () => {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const router = useRouter();
+
+  const [showModal, setShowModal] = React.useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for dropdown menu
-  const [moviedata, setMovieData] = useState<Movie[]>([]);
+  // const [moviedata, setMovieData] = useState<Movie[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-
-  const openModal = () => {
-    if (dialogRef.current) {
-      dialogRef.current.showModal();
-    }
-  };
-  useEffect(() => {
-    const getMovies = async () => {
-      try {
-        const query = await fetch(
-          "https://abissinia-backend.vercel.app/api/movies"
-        );
-        const response = await query.json();
-        const moviesArray = response.movies; // Access the movies array from the resolved response
-        console.log(moviesArray);
-        setMovieData(moviesArray);
-      } catch (error) {
-        console.error("Error in fetching movies:", error);
-      }
-    };
-    getMovies();
-  }, []);
-
+  const [movies, setMovies] = useState<Movie[]>([]);
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
@@ -58,26 +41,34 @@ const MoviesPage = () => {
     setSelectedGenre(genre);
     setIsDropdownOpen(false); // Close dropdown after selection
   };
-
-  const deleteMovie = async (id: string) => {
-    try {
-      const response = await fetch(
-        `https://abissinia-backend.vercel.app/api/movies/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (response.ok) {
-        setMovieData(moviedata.filter((movie) => movie._id !== id));
-        console.log("Movie deleted successfully");
-      } else {
-        console.error("Failed to delete the movie");
+  useEffect(() => {
+    const getMovies = async () => {
+      try {
+        const response = await axios.get(
+          "https://abissinia-backend.vercel.app/api/movies?page=1&limit=1000"
+        );
+        setMovies(response.data.movies);
+      } catch (error) {
+        console.error("Error in fetching users:", error);
       }
+    };
+    getMovies();
+  }, []);
+
+  async function deleteMovie(movieId: string): Promise<void> {
+    try {
+      const response = await axios.delete(
+        `https://abissinia-backend.vercel.app/api/movies/${movieId}`
+      );
+      console.log(`Movie with ID ${movieId} deleted successfully.`);
+      toast.success("Movie deleted successfully!");
+      console.log(response.data); // Optional: Log the response data if needed
     } catch (error) {
-      console.error("Error deleting movie:", error);
+      console.error(`Error deleting movie with ID ${movieId}:`, error);
+      toast.error("Can't delete the movie!");
     }
-  };
+  }
+
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
@@ -90,7 +81,7 @@ const MoviesPage = () => {
     return formattedDate.replace(",", "");
   };
   // Filter movies based on search term and selected genre
-  const filteredMovies = moviedata.filter((movie) => {
+  const filteredMovies = movies.filter((movie) => {
     if (selectedGenre && movie.genre.includes(selectedGenre)) {
       return false; // Skip if genre doesn't match selected genre
     }
@@ -99,7 +90,7 @@ const MoviesPage = () => {
     }
     return true; // Include movie in filtered list
   });
-
+  if (!movies) return <div className="text-4xl p-50 text-white">Loding...</div>;
   return (
     <div className="flex flex-col text-white">
       <SearchBar name={"movie"} onChange={handleSearchChange} />
@@ -116,20 +107,19 @@ const MoviesPage = () => {
             <div className="absolute z-10 mt-2 w-full bg-gray-800 rounded-lg shadow-lg">
               <button
                 onClick={() => handleGenreFilter("ፊልም")}
-                className={`
-                block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl`}
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 ፊልም
               </button>
               <button
                 onClick={() => handleGenreFilter("Action")}
-                className=" block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 Action
               </button>
               <button
                 onClick={() => handleGenreFilter("ድራማ")}
-                className=" block w-full text-center px-4 py-2 text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
+                className="block w-full text-center text-white hover:text-blue-500 hover:font-bold px-4 py-2 text-xl"
               >
                 ድራማ
               </button>
@@ -138,21 +128,24 @@ const MoviesPage = () => {
           )}
         </div>
         <div>
-          <dialog className="modal bg-gray-700" ref={dialogRef}>
-            <div className="modal-box max-w-96 rounded-2xl">
-              <AddMovie />
+          {showModal && (
+            <div className="fixed inset-0 z-50 overflow-auto bg-gray-700 bg-opacity-50 flex">
+              <div className="relative p-8 bg-white w-full max-w-3xl m-auto flex-col flex rounded-lg">
+                <AddMovie setShowModal={setShowModal} />
+              </div>
             </div>
-          </dialog>
+          )}
         </div>
         <button
-          onClick={openModal}
+          type="button"
+          onClick={() => setShowModal(true)}
           className="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg"
         >
           Add Movie
         </button>
       </div>
       <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
-        <li className="flex border-b-2  justify-start p-4 mb-5">
+        <li className="flex border-b-2 justify-start p-4 mb-5">
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Name</div>
           <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Genre</div>
           <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">
@@ -181,15 +174,18 @@ const MoviesPage = () => {
             <div className="pt-2 w-3/12 pl-3 font-bold">
               {formatDate(movie.releaseDate)}
             </div>
-            <button className="flex text-lg  pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white ">
+            <button
+              className="flex text-lg pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white"
+              onClick={() => {
+                router.push(`/movies/${movie._id}`);
+              }}
+            >
               <MdModeEdit className="text-white text-2xl pt-1" />
               Edit
             </button>
             <button
-              className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white "
-              onClick={() => {
-                deleteMovie(movie._id);
-              }}
+              className="flex text-lg pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white"
+              onClick={() => deleteMovie(movie._id)}
             >
               <MdDeleteForever className="text-white text-2xl pt-1" />
               Delete
