@@ -41,8 +41,51 @@ const ApproveMovieRequest: React.FC<ApproveMovieRequestProps> = ({
   const [starsOptions, setStarsOptions] = useState<
     { value: string; label: string }[]
   >([]);
-  const genres = ["Action", "Comedy", "Drama", "Fantasy", "Horror"];
-  const countries = ["USA", "UK", "Canada", "Australia", "India"];
+  const genres = [
+    "Action",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Adventure",
+    "Animation",
+    "Biography",
+    "Crime",
+    "Documentary",
+    "Family",
+    "History",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War",
+    "Western",
+    "Sports",
+  ];
+  const countries = [
+    "USA",
+    "UK",
+    "Canada",
+    "Australia",
+    "India",
+    "Germany",
+    "France",
+    "Italy",
+    "Spain",
+    "Japan",
+    "China",
+    "Russia",
+    "Brazil",
+    "Mexico",
+    "South Korea",
+    "Argentina",
+    "South Africa",
+    "Egypt",
+    "Nigeria",
+    "Kenya",
+    "Morocco",
+  ];
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
