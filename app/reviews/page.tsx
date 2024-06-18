@@ -1,24 +1,23 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { FaAngleDown } from "react-icons/fa";
+import { MdOutlineRateReview } from "react-icons/md";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
 
 import SearchBar from "@/components/searchBar/searchBar";
 import AddMovie from "@/components/addMovieModal/addMovie";
 import axios from "axios";
 
-type Snack = {
-  image: string;
-  name: string;
-  price: string;
-  type: string;
+type Review = {
+  comment: string;
+  rating: string;
+  movieId: string;
+  // type: string;
 };
 
-const SnackPage = () => {
+const ReviewsPage = () => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [snacks, setSnackes] = useState<Snack[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const openModal = () => {
     if (dialogRef.current) {
@@ -32,25 +31,25 @@ const SnackPage = () => {
 
   //
   useEffect(() => {
-    const getMovies = async () => {
+    const getReviews = async () => {
       try {
         const response = await axios.get(
-          "https://abissinia-backend.vercel.app/api/snacks"
+          "https://abissinia-backend.vercel.app/api/reviews"
         );
-        setSnackes(response.data);
-        console.log("snacks=", response.data);
+        setReviews(response.data);
+        console.log("Reviews=", response.data);
       } catch (error) {
         console.error("Error in fetching users:", error);
       }
     };
-    getMovies();
+    getReviews();
   }, []);
 
   // Filter movies based on search term and selected genre
-  const filteredSnacks = snacks.filter((snack) => {
-    if (searchTerm && !snack.name.toLowerCase().includes(searchTerm)) {
-      return false; // Skip if movie name doesn't match search term
-    }
+  const filteredSnacks = reviews.filter((review) => {
+    // if (searchTerm && !re.name.toLowerCase().includes(searchTerm)) {
+    //   return false; // Skip if movie name doesn't match search term
+    // }
     return true; // Include movie in filtered list
   });
 
@@ -84,18 +83,12 @@ const SnackPage = () => {
           <li key={index} className="flex justify-start pb-5">
             <div className="flex w-1/3 gap-2">
               <div className="relative w-10 h-10 overflow-hidden rounded-full">
-                <Image
-                  className="rounded-full"
-                  src={`${snack.image}`}
-                  alt={`${snack.name} poster`}
-                  layout="fill"
-                  objectFit="cover"
-                />
+                <MdOutlineRateReview />
               </div>
-              <p className="pt-2">{snack.name}</p>
+              <p className="pt-2">{snack.movieId}</p>
             </div>
-            <div className="pt-2 w-3/12 pl-3 font-bold">{snack.price} </div>
-            <div className="pt-2 w-3/12 pl-3 font-bold">{snack.type}</div>
+            <div className="pt-2 w-3/12 pl-3 font-bold">{snack.comment} </div>
+            <div className="pt-2 w-3/12 pl-3 font-bold">{snack.rating}</div>
             <button className="flex text-lg  pt-1 pl-3 w-1/12 text-blue-500 rounded-lg font-bold border border-blue-500 hover:bg-blue-500 hover:text-white ">
               <MdModeEdit className="text-white text-2xl pt-1" />
               Edit
@@ -111,4 +104,4 @@ const SnackPage = () => {
   );
 };
 
-export default SnackPage;
+export default ReviewsPage;
