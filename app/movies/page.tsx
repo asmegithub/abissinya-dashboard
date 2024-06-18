@@ -60,6 +60,7 @@ const MoviesPage = () => {
       const response = await axios.delete(
         `https://abissinia-backend.vercel.app/api/movies/${movieId}`
       );
+      setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== movieId));
       console.log(`Movie with ID ${movieId} deleted successfully.`);
       toast.success("Movie deleted successfully!");
       console.log(response.data); // Optional: Log the response data if needed
