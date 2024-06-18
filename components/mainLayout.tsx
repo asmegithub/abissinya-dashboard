@@ -5,7 +5,7 @@ import { MdLocalMovies } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { PiBuildingsBold } from "react-icons/pi";
 import { MdRateReview } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { FcApprove } from "react-icons/fc";
 import { MdOutlinePayments } from "react-icons/md";
 
 import { GrProjects } from "react-icons/gr";
@@ -115,27 +115,22 @@ const MainLayout = ({ children }: Props) => {
               <MdRateReview className=" mr-2 text-xl" />
               <Link href="/reviews">Reviews</Link>
             </li>
-            {/* <li
+            <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/payment"
+                "/movieRequest"
               )}`}
             >
-              <MdOutlinePayments className=" mr-2 text-xl" />
-              <Link href="/snacks">Payment</Link>
-            </li> */}
+              <FcApprove className=" mr-2 text-xl" />
+              <Link href="/movieRequest">Movie Aproval</Link>
+            </li>
             <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/stars"
               )}`}
             >
-              <FaUsers className=" mr-2 text-xl" />
+              <FaUsers className=" mr-2 text-2xl text-white" />
               <Link href="/stars">Stars</Link>
             </li>
-            {/* <li className="flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2">
-              <GrProjects className=" mr-2 text-xl" />
-              <h3 className="flex-1">Projects</h3>
-              <FaAngleRight />
-            </li> */}
           </ul>
         </aside>
 

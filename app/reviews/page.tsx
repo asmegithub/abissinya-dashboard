@@ -4,13 +4,15 @@ import { MdOutlineRateReview } from "react-icons/md";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
 
 import SearchBar from "@/components/searchBar/searchBar";
-import AddMovie from "@/components/addMovieModal/addMovie";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 type Review = {
+  _id: string;
   comment: string;
   rating: string;
   movieId: string;
+  userId: string;
   // type: string;
 };
 
@@ -44,12 +46,26 @@ const ReviewsPage = () => {
     };
     getReviews();
   }, []);
-
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(
+        `https://abissinia-backend.vercel.app/api/reviews/${id}`
+      );
+      setReviews(reviews.filter((review) => review._id !== id));
+      console.log(`Review with id ${id} deleted`);
+      toast.success("Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
+  };
   // Filter movies based on search term and selected genre
-  const filteredSnacks = reviews.filter((review) => {
-    // if (searchTerm && !re.name.toLowerCase().includes(searchTerm)) {
-    //   return false; // Skip if movie name doesn't match search term
-    // }
+  const filteredReviews = reviews.filter((review) => {
+    if (
+      (searchTerm && !review.comment.toLowerCase().includes(searchTerm)) ||
+      !review.movieId.toLowerCase().includes(searchTerm)
+    ) {
+      return false; // Skip if movie name doesn't match search term
+    }
     return true; // Include movie in filtered list
   });
 
@@ -64,22 +80,15 @@ const ReviewsPage = () => {
             </div>
           </dialog>
         </div>
-        <button
-          onClick={openModal}
-          className="bg-blue-500 text-white font-bold px-6 py-2 rounded-lg"
-        >
-          Add Snack
-        </button>
+       
       </div>
       <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
         <li className="flex border-b-2  justify-start p-4 mb-5">
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Name</div>
-          <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">
-            price(ETB)
-          </div>
-          <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Type</div>
+          <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">comment</div>
+          <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Rating</div>
         </li>
-        {filteredSnacks.map((snack, index) => (
+        {reviews.length==0?<p className="text-2xl px-96 py-40">Loading...</p>:filteredReviews.map((snack, index) => (
           <li key={index} className="flex justify-start pb-5">
             <div className="flex w-1/3 gap-2">
               <div className="relative w-10 h-10 overflow-hidden rounded-full">
@@ -93,7 +102,9 @@ const ReviewsPage = () => {
               <MdModeEdit className="text-white text-2xl pt-1" />
               Edit
             </button>
-            <button className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white ">
+            <button
+             onClick={() => handleDelete(snack._id)} 
+             className="flex text-lg  pt-1 pl-3 w-1/12 text-red-500 rounded-lg font-bold border border-red-500 mx-2 hover:bg-red-500 hover:text-white ">
               <MdDeleteForever className="text-white text-2xl pt-1" />
               Delete
             </button>

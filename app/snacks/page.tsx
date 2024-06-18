@@ -8,7 +8,7 @@ import SearchBar from "@/components/searchBar/searchBar";
 import AddMovie from "@/components/addMovieModal/addMovie";
 import axios from "axios";
 
-type Snack = {
+export type Snack = {
   image: string;
   name: string;
   price: string;
@@ -80,7 +80,7 @@ const SnackPage = () => {
           </div>
           <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Type</div>
         </li>
-        {filteredSnacks.map((snack, index) => (
+        {snacks.length==0?<p className="text-2xl px-96 py-40">Loading...</p>:filteredSnacks.map((snack, index) => (
           <li key={index} className="flex justify-start pb-5">
             <div className="flex w-1/3 gap-2">
               <div className="relative w-10 h-10 overflow-hidden rounded-full">

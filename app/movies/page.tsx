@@ -153,7 +153,7 @@ const MoviesPage = () => {
           </div>
         </li>
 
-        {filteredMovies.map((movie, index) => (
+        {movies.length==0?<p className="text-2xl px-96 py-40">Loading...</p>:filteredMovies.map((movie, index) => (
           <li key={movie._id} className="flex justify-start pb-5">
             <div className="flex w-1/3 gap-2">
               <div className="relative w-10 h-10 overflow-hidden rounded-full">

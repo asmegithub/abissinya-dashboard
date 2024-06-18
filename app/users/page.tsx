@@ -140,37 +140,41 @@ const UsersPage = () => {
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Role</div>
         </li>
 
-        {filteredUsers.map((user) => {
-          return (
-            <li key={user.email} className="flex justify-start pb-5">
-              <div className="flex w-4/12 gap-2">
-                <div className="relative w-10 h-10 overflow-hidden rounded-full">
-                  <Image
-                    className="rounded-full"
-                    src={`${user.avatar}`}
-                    alt={`${user.username} poster`}
-                    layout="fill"
-                    objectFit="cover"
-                  />
+        {users.length == 0 ? (
+          <p className="text-2xl px-96 py-40">Loading...</p>
+        ) : (
+          filteredUsers.map((user) => {
+            return (
+              <li key={user.email} className="flex justify-start pb-5">
+                <div className="flex w-4/12 gap-2">
+                  <div className="relative w-10 h-10 overflow-hidden rounded-full">
+                    <Image
+                      className="rounded-full"
+                      src={`${user.avatar}`}
+                      alt={`${user.username} poster`}
+                      layout="fill"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <p className="pt-2">{user.username}</p>
                 </div>
-                <p className="pt-2">{user.username}</p>
-              </div>
-              <div className="pt-2 w-4/12">{user.email}</div>
-              <div className="pt-2 w-3/12">
-                {user.role ? user.role : "User"}
-              </div>
-              <button
-                className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white"
-                onSubmit={() => {
-                  handleRemoveUser(user._id);
-                  // setIsDropdownOpen(!isDropdownOpen);
-                }}
-              >
-                Remove
-              </button>
-            </li>
-          );
-        })}
+                <div className="pt-2 w-4/12">{user.email}</div>
+                <div className="pt-2 w-3/12">
+                  {user.role ? user.role : "User"}
+                </div>
+                <button
+                  className="w-1/12 text-red-500 rounded-lg font-bold border border-red-500 hover:bg-red-500 hover:text-white"
+                  onSubmit={() => {
+                    handleRemoveUser(user._id);
+                    // setIsDropdownOpen(!isDropdownOpen);
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            );
+          })
+        )}
       </ul>
     </div>
   );

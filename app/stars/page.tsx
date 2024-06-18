@@ -100,7 +100,7 @@ const StarsPage = () => {
           <div className="w-1/3 font-bold text-2xl text-[#A1E8EE]">Phone</div>
         </li>
 
-        {filteredStars.map((star) => {
+        {stars.length==0?<p className="text-2xl px-96 py-40">Loading...</p>:filteredStars.map((star) => {
           return (
             <li key={star._id} className="flex justify-start pb-5">
               <div className="flex w-4/12 gap-2">
