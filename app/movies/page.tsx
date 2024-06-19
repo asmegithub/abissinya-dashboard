@@ -53,7 +53,7 @@ const MoviesPage = () => {
       }
     };
     getMovies();
-  }, []);
+  }, [movies]);
 
   async function deleteMovie(movieId: string): Promise<void> {
     try {

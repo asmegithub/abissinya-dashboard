@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineRateReview } from "react-icons/md";
-import { MdModeEdit, MdDeleteForever } from "react-icons/md";
+import { IoTicket } from "react-icons/io5";
 
 import SearchBar from "@/components/searchBar/searchBar";
 import AddMovie from "@/components/addMovieModal/addMovie";
@@ -9,7 +9,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 interface Tickets {
-  bookingDate: string;
   day: string;
   movieShowId: {
     hallId: Hall;
@@ -76,7 +75,7 @@ const ReviewsPage = () => {
           "https://abissinia-backend.vercel.app/api/bookings"
         );
         const bookingData = response.data;
-        console.log("BTickets=:", bookingData);
+        console.log("Tickets=:", bookingData);
         setTickets(bookingData);
         return bookingData;
       } catch (error) {
@@ -112,30 +111,62 @@ const ReviewsPage = () => {
        </div>
        <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
          <li className="flex border-b-2  justify-start p-4 mb-5">
-           <div className="font-bold text-2xl text-[#A1E8EE]">Booking Date</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Show Time</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Hall</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Movie title</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Seats</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Order</div>
-           <div className="font-bold text-2xl text-[#A1E8EE]">Hall</div>
+           <div className="w-2/12  px-2 font-bold text-2xl text-[#A1E8EE]">
+             Booking Date
+           </div>
+           <div className="w-2/12  px-2 font-bold text-2xl text-[#A1E8EE]">
+             Show Time
+           </div>
+           <div className="w-2/12  px-2 font-bold text-2xl text-[#A1E8EE]">
+             Movie title
+           </div>
+           <div className="w-2/12 px-2 font-bold text-2xl text-[#A1E8EE]">
+             Seats
+           </div>
+           <div className="w-2/12 px-2 font-bold text-2xl text-[#A1E8EE]">
+             Order
+           </div>
+           <div className="w-2/12  px-2 font-bold text-2xl text-[#A1E8EE]">
+             User
+           </div>
          </li>
-         {/* {(tickets.length==0)?<p className="text-2xl px-96 py-40">Loading...</p>: tickets.map((order, index) => (
-          <li key={index} className="flex justify-start pb-5">
-            <div className="flex w-1/3 gap-2">
-              <div className="relative w-10 h-10 overflow-hidden rounded-full">
-                <MdOutlineRateReview />
-              </div>
-              <p className="pt-2">{order.movieId}</p>
-            </div>
-            <div className="pt-2 w-3/12 pl-3 font-bold">{order.date} </div>
-            <div className="pt-2 w-3/12 pl-3 font-bold">
-              {order.snacks.map((snack) => {
-                return <span key={snack.name}>{snack.name},</span>;
-              })}
-            </div>
-          </li>
-        ))} */}
+         {tickets.length == 0 ? (
+           <p className="text-2xl px-96 py-40">Loading...</p>
+         ) : (
+           tickets.map((ticket, index) => (
+             <li key={index} className="flex justify-start pb-5">
+               <div className="flex w-2/12 gap-2">
+                 <div className="relative w-10 h-10 overflow-hidden rounded-full">
+                   <IoTicket className="text-blue-500 text-3xl" />
+                 </div>
+                 <p className=" px-2">{ticket.day}</p>
+               </div>
+               <div className="w-2/12  px-2 pl-3 font-bold">
+                 {ticket.movieShowId
+                   ? ticket.movieShowId?.showTime.join(",")
+                   : " 2024-05-23 at 3:00,2:00"}{" "}
+               </div>
+               {/* <p className="w-1/12 px-2">{ticket.movieShowId?.hallId.name}</p> */}
+               <p className="w-2/12  px-2">
+                 {ticket.movieShowId
+                   ? ticket.movieShowId?.movieId.title
+                   : "Dummy Movie title"}
+               </p>
+               <p className="w-2/12  px-2">
+                 {ticket.seats.booked
+                   ? ticket.seats.booked.join(",")
+                   : "1,23,5"}
+               </p>
+               <p className="w-2/12 px-2">
+                 {ticket.order?.snacks
+                   ? ticket.order?.snacks.join(",")
+                   : "water,chips,donat"}
+               </p>
+               {/* <p className="w-1/12  px-2">{ticket.movieShowId?.hallId.name}</p> */}
+               <p className="w-2/12 px-2">{ticket.userId.email}</p>
+             </li>
+           ))
+         )}
        </ul>
      </div>
    );
@@ -148,7 +179,7 @@ export default ReviewsPage;
 // import "tailwindcss/tailwind.css";
 
 // interface Booking {
-//   bookingDate: string;
+//   day: string;
 //   day: string;
 //   movieShowId: string;
 //   createdAt: string;
@@ -195,7 +226,7 @@ export default ReviewsPage;
 // }
 
 // interface BookingInfo {
-//   bookingDate: string;
+//   day: string;
 //   day: string;
 //   movieShowId: string;
 //   createdAt: string;
