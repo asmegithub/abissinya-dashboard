@@ -48,7 +48,7 @@ const StarsPage = () => {
     };
 
     getStars();
-  }, []);
+  }, [stars]);
 
   const deleteStar = async (id: string) => {
     try {
