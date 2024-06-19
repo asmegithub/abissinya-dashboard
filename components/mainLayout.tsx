@@ -16,6 +16,7 @@ import { usePathname, useRouter } from "next/navigation"; // Import usePathname 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getUserFromLocalStorage } from "@/utils";
+import { LuLogOut } from "react-icons/lu";
 
 type Props = {
   children: React.ReactNode;
@@ -46,75 +47,78 @@ useEffect(() => {
   return (
     <div className="bg-[#1D2132] w-full min-h-screen">
       <div className="flex justify-start items-start px-5">
-        {user && <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
-          <ul>
-            <li className=" mb-16">
-              <Image
-                className=" m-10  ml-5 mb-0"
-                src="/images/logo.png"
-                width={200}
-                height={200}
-                alt="Logo"
-              />
-              <h3 className="text-white ml-5 text-2xl">Abissinya Ticketing</h3>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid rounded-lg my-2 p-2 ${getLinkClasses(
-                "/"
-              )}`}
-            >
-              <CiHome className=" mr-2 text-xl " />
-              <Link href="/">Home</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/users"
-              )}`}
-            >
-              <FaUsers className=" mr-2 text-xl" />
-              <Link href="/users">Users</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/movies"
-              )}`}
-            >
-              <MdLocalMovies className=" mr-2 text-xl" />
-              <Link href="/movies">Movies</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/schedules"
-              )}`}
-            >
-              <SlCalender className=" mr-2 text-xl" />
-              <Link href="/schedules">Schedules</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/halls"
-              )}`}
-            >
-              <PiBuildingsBold className=" mr-2 text-xl" />
-              <Link href="/halls">Halls</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/snacks"
-              )}`}
-            >
-              <MdFastfood className=" mr-2 text-xl" />
-              <Link href="/snacks">Foods & Drinks</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/tickets"
-              )}`}
-            >
-              <MdFastfood className=" mr-2 text-xl" />
-              <Link href="/tickets">Tickets</Link>
-            </li>
-            {/* <li
+        {user && (
+          <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
+            <ul>
+              <li className=" mb-16">
+                <Image
+                  className=" m-10  ml-5 mb-0"
+                  src="/images/logo.png"
+                  width={200}
+                  height={200}
+                  alt="Logo"
+                />
+                <h3 className="text-white ml-5 text-2xl">
+                  Abissinya Ticketing
+                </h3>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/"
+                )}`}
+              >
+                <CiHome className=" mr-2 text-xl " />
+                <Link href="/">Home</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/users"
+                )}`}
+              >
+                <FaUsers className=" mr-2 text-xl" />
+                <Link href="/users">Users</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/movies"
+                )}`}
+              >
+                <MdLocalMovies className=" mr-2 text-xl" />
+                <Link href="/movies">Movies</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/schedules"
+                )}`}
+              >
+                <SlCalender className=" mr-2 text-xl" />
+                <Link href="/schedules">Schedules</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/halls"
+                )}`}
+              >
+                <PiBuildingsBold className=" mr-2 text-xl" />
+                <Link href="/halls">Halls</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/snacks"
+                )}`}
+              >
+                <MdFastfood className=" mr-2 text-xl" />
+                <Link href="/snacks">Foods & Drinks</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/tickets"
+                )}`}
+              >
+                <MdFastfood className=" mr-2 text-xl" />
+                <Link href="/tickets">Tickets</Link>
+              </li>
+              {/* <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/reviews"
               )}`}
@@ -122,24 +126,34 @@ useEffect(() => {
               <MdRateReview className=" mr-2 text-xl" />
               <Link href="/reviews">Reviews</Link>
             </li> */}
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/movieRequest"
-              )}`}
-            >
-              <FcApprove className=" mr-2 text-xl" />
-              <Link href="/movieRequest">Movie Aproval</Link>
-            </li>
-            <li
-              className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
-                "/stars"
-              )}`}
-            >
-              <FaUsers className=" mr-2 text-2xl text-white" />
-              <Link href="/stars">Stars</Link>
-            </li>
-          </ul>
-        </aside>}
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/movieRequest"
+                )}`}
+              >
+                <FcApprove className=" mr-2 text-xl" />
+                <Link href="/movieRequest">Movie Aproval</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
+                  "/stars"
+                )}`}
+              >
+                <FaUsers className=" mr-2 text-2xl text-white" />
+                <Link href="/stars">Stars</Link>
+              </li>
+              <li
+                className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 
+                )}`}
+              >
+                <LuLogOut className=" mr-2 text-2xl text-white" />
+                <button onClick={()=>{
+                  localStorage.removeItem('user');
+                }}>Logout</button>
+              </li>
+            </ul>
+          </aside>
+        )}
 
         <main className="flex-1 mt-40 mx-10">{children}</main>
       </div>
