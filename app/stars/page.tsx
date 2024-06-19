@@ -91,7 +91,7 @@ const StarsPage = () => {
         {showAddModal && (
           <div className="fixed inset-0 z-50 overflow-auto bg-gray-700 bg-opacity-50 flex">
             <div className="relative p-8 bg-white w-full max-w-3xl m-auto flex-col flex rounded-lg">
-              <AddStar setShowModal={setShowAddModal} />
+              <AddStar setShowModal={setShowAddModal} setStars={setStars} />
             </div>
           </div>
         )}

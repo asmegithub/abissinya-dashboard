@@ -23,7 +23,7 @@ interface FormData {
   profilePhotoURL: string;
 }
 
-const AddStar = ({ setShowModal }: { setShowModal: any }) => {
+const AddStar = ({ setShowModal ,setStars}: { setShowModal: any,setStars:any }) => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -115,7 +115,11 @@ const AddStar = ({ setShowModal }: { setShowModal: any }) => {
         "https://abissinia-backend.vercel.app/api/stars",
         requestBody
       );
-
+      const response = await axios.get(
+        "https://abissinia-backend.vercel.app/api/stars"
+      );
+      const stars=response.data;
+      setStars(stars);
       toast.success("Star added successfully!");
 
       setFormData({

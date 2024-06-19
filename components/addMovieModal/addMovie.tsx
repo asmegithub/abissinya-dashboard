@@ -25,7 +25,13 @@ interface FormData {
   stars: { value: string; label: string }[];
 }
 
-const AddMovie = ({ setShowModal }: { setShowModal: any }) => {
+const AddMovie = ({
+  setShowModal,
+  setMovies,
+}: {
+  setShowModal: any;
+  setMovies:any;
+}) => {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [starsOptions, setStarsOptions] = useState<
     { value: string; label: string }[]
@@ -43,54 +49,52 @@ const AddMovie = ({ setShowModal }: { setShowModal: any }) => {
     description: "",
     stars: [],
   });
-const genres = [
-  "Action",
-  "Comedy",
-  "Drama",
-  "Fantasy",
-  "Horror",
-  "Adventure",
-  "Animation",
-  "Biography",
-  "Crime",
-  "Documentary",
-  "Family",
-  "History",
-  "Musical",
-  "Mystery",
-  "Romance",
-  "Sci-Fi",
-  "Thriller",
-  "War",
-  "Western",
-  "Sports",
-];
-const countries = [
-  "USA",
-  "UK",
-  "Canada",
-  "Australia",
-  "India",
-  "Germany",
-  "France",
-  "Italy",
-  "Spain",
-  "Japan",
-  "China",
-  "Russia",
-  "Brazil",
-  "Mexico",
-  "South Korea",
-  "Argentina",
-  "South Africa",
-  "Egypt",
-  "Nigeria",
-  "Kenya",
-  "Morocco",
-  "Ethiopia"
-];
- 
- 
+  const genres = [
+    "Action",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Adventure",
+    "Animation",
+    "Biography",
+    "Crime",
+    "Documentary",
+    "Family",
+    "History",
+    "Musical",
+    "Mystery",
+    "Romance",
+    "Sci-Fi",
+    "Thriller",
+    "War",
+    "Western",
+    "Sports",
+  ];
+  const countries = [
+    "USA",
+    "UK",
+    "Canada",
+    "Australia",
+    "India",
+    "Germany",
+    "France",
+    "Italy",
+    "Spain",
+    "Japan",
+    "China",
+    "Russia",
+    "Brazil",
+    "Mexico",
+    "South Korea",
+    "Argentina",
+    "South Africa",
+    "Egypt",
+    "Nigeria",
+    "Kenya",
+    "Morocco",
+    "Ethiopia",
+  ];
 
   const backgroundColor = "#1A1F33";
   const inputBorderColor = "#4E5460";
@@ -204,11 +208,15 @@ const countries = [
         starsId: formData.stars.map((star) => star.value), // Use starsId instead of stars
       };
 
-      const response = await axios.post(
+      await axios.post(
         `https://abissinia-backend.vercel.app/api/movies`,
         requestBody
       );
-
+      const response = await axios.get(
+        "https://abissinia-backend.vercel.app/api/movies"
+      );
+      const newMovies = response.data;
+      setMovies(newMovies);
       toast.success("Form submitted successfully!");
 
       setFormData({
