@@ -107,14 +107,14 @@ const MainLayout = ({ children }: Props) => {
               <MdFastfood className=" mr-2 text-xl" />
               <Link href="/tickets">Tickets</Link>
             </li>
-            <li
+            {/* <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/reviews"
               )}`}
             >
               <MdRateReview className=" mr-2 text-xl" />
               <Link href="/reviews">Reviews</Link>
-            </li>
+            </li> */}
             <li
               className={`flex justify-start pl-5 text-xl items-center border border-blue-500 border-solid hover:text-blue-800 rounded-lg my-2 p-2 ${getLinkClasses(
                 "/movieRequest"
