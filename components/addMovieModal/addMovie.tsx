@@ -87,6 +87,7 @@ const countries = [
   "Nigeria",
   "Kenya",
   "Morocco",
+  "Ethiopia"
 ];
  
  
