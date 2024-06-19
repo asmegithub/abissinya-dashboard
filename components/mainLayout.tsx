@@ -12,9 +12,10 @@ import { GrProjects } from "react-icons/gr";
 import { FaAngleRight } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // Import usePathname from next/navigation
+import { usePathname, useRouter } from "next/navigation"; // Import usePathname from next/navigation
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getUserFromLocalStorage } from "@/app/login/page";
 
 type Props = {
   children: React.ReactNode;
@@ -27,7 +28,13 @@ const MainLayout = ({ children }: Props) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
+  const router = useRouter();
+const user = getUserFromLocalStorage();
+useEffect(() => {
+  if (user?.role !== "Admin" || !user) {
+    router.push("/login");
+  }
+}, [router, user]);
   // Function to determine link classes based on current path
   const getLinkClasses = (path: string) =>
     pathname === path ? "text-blue-800" : "hover:text-blue-800";
