@@ -43,7 +43,7 @@ const FoodAndDrinkPage = () => {
     };
 
     getSnacks();
-  }, [snacks]);
+  }, []);
 
   const deleteSnack = async (id: string) => {
     try {
