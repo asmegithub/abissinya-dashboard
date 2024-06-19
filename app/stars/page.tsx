@@ -109,7 +109,7 @@ const StarsPage = () => {
       ) : (
         <ul className="px-10 rounded-xl border border-blue-500 overflow-x-auto h-[650px]">
           <li className="flex border-b-2 justify-start p-4 mb-5">
-            <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">Name</div>
+            <div className="w-1/2 font-bold text-2xl text-[#A1E8EE]">Name</div>
             <div className="w-1/4 font-bold text-2xl text-[#A1E8EE]">
               Address
             </div>
@@ -119,7 +119,7 @@ const StarsPage = () => {
           </li>
           {filteredStars.map((star) => (
             <li key={star._id} className="flex justify-start pb-5">
-              <div className="flex w-1/4 gap-2">
+              <div className="flex w-1/2 gap-2">
                 <div className="relative w-10 h-10 overflow-hidden rounded-full">
                   <Image
                     className="rounded-full"
