@@ -15,7 +15,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation"; // Import usePathname from next/navigation
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getUserFromLocalStorage } from "@/app/login/page";
+import { getUserFromLocalStorage } from "@/utils";
 
 type Props = {
   children: React.ReactNode;
