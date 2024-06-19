@@ -64,6 +64,18 @@ interface User {
 
 
 const ReviewsPage = () => {
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    });
+  }
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [tickets, setTickets] = useState<Tickets[]>([]);
@@ -143,7 +155,7 @@ const ReviewsPage = () => {
                  <div className="relative w-10 h-10 overflow-hidden rounded-full">
                    <IoTicket className="text-blue-500 text-3xl" />
                  </div>
-                 <p className=" px-2">{ticket.bookingDate}</p>
+                 <p className=" px-2">{formatDate(ticket.bookingDate)}</p>
                </div>
                <div className="w-2/12  px-2 pl-3 font-bold">{ticket.day}</div>
                {/* <p className="w-1/12 px-2">{ticket.movieShowId?.hallId.name}</p> */}
@@ -164,8 +176,8 @@ const ReviewsPage = () => {
                    );
                  })}
                </p>
-               <p className="w-2/12 px-2">{ticket.userId.email}</p>
-               <p className="w-2/12 px-2">{ticket.price}</p>
+               <p className="w-3/12 px-2">{ticket.userId.email}</p>
+               <p className="w-1/12 px-2">{ticket.price}ETB</p>
              </li>
            ))
          )}

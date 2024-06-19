@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getUserFromLocalStorage } from "@/utils";
 import { LuLogOut } from "react-icons/lu";
+import { toast } from "react-toastify";
 
 type Props = {
   children: React.ReactNode;
@@ -149,6 +150,8 @@ useEffect(() => {
                 <LuLogOut className=" mr-2 text-2xl text-white" />
                 <button onClick={()=>{
                   localStorage.removeItem('user');
+                  toast.success('logged out');
+                  router.push('/login');
                 }}>Logout</button>
               </li>
             </ul>
