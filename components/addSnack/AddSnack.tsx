@@ -17,7 +17,13 @@ interface FormData {
   imageURL: string;
 }
 
-const AddSnack = ({ setShowModal }: { setShowModal: any }) => {
+const AddSnack = ({
+  setShowModal,
+  setSnacks,
+}: {
+  setShowModal: any;
+  setSnacks:any
+}) => {
   const [formData, setFormData] = useState<FormData>({
     type: "",
     name: "",
@@ -97,6 +103,11 @@ const AddSnack = ({ setShowModal }: { setShowModal: any }) => {
         `https://abissinia-backend.vercel.app/api/snacks`,
         requestBody
       );
+      const response = await axios.get(
+        "https://abissinia-backend.vercel.app/api/snacks"
+      );
+      const snacks= response.data;
+      setSnacks(snacks);
 
       toast.success("Snack added successfully!");
 
