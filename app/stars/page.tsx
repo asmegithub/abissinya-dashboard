@@ -4,7 +4,7 @@ import Image from "next/image";
 import { MdModeEdit, MdDeleteForever } from "react-icons/md";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import NextTopLoader from 'nextjs-toploader'
 import SearchBar from "@/components/searchBar/searchBar";
 import AddStar from "@/components/addStar/AddStar";
 import EditStar from "@/components/editStar/EditStar";
@@ -75,6 +75,17 @@ const StarsPage = () => {
 
   return (
     <div className="flex flex-col text-white">
+      <NextTopLoader
+        color="#0325e9"
+        initialPosition={0.08}
+        crawlSpeed={200}
+        height={3}
+        crawl={true}
+        showSpinner={true}
+        easing="ease"
+        speed={200}
+        shadow="0 0 10px #0325e9,0 0 5px #0325e9"
+      />
       <SearchBar name="star" onChange={handleSearchChange} />
       <div className="flex justify-between mr-5 my-5">
         {showAddModal && (
