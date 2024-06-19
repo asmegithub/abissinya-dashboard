@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 interface Tickets {
+  bookingDate:string;
   day: string;
   movieShowId: {
     hallId: Hall;
@@ -16,7 +17,7 @@ interface Tickets {
     showTime: ShowTime[];
   };
   order: Order;
-  price:Number;
+  price:number;
   seats:{
     booked:Seat[];
   };
@@ -129,6 +130,9 @@ const ReviewsPage = () => {
            <div className="w-2/12  px-2 font-bold text-2xl text-[#A1E8EE]">
              User
            </div>
+           <div className="w-1/12  px-2 font-bold text-2xl text-[#A1E8EE]">
+             Price
+           </div>
          </li>
          {tickets.length == 0 ? (
            <p className="text-2xl px-96 py-40">Loading...</p>
@@ -139,13 +143,9 @@ const ReviewsPage = () => {
                  <div className="relative w-10 h-10 overflow-hidden rounded-full">
                    <IoTicket className="text-blue-500 text-3xl" />
                  </div>
-                 <p className=" px-2">{ticket.day}</p>
+                 <p className=" px-2">{ticket.bookingDate}</p>
                </div>
-               <div className="w-2/12  px-2 pl-3 font-bold">
-                 {ticket.movieShowId
-                   ? ticket.movieShowId?.showTime.join(",")
-                   : " 2024-05-23 at 3:00,2:00"}{" "}
-               </div>
+               <div className="w-2/12  px-2 pl-3 font-bold">{ticket.day}</div>
                {/* <p className="w-1/12 px-2">{ticket.movieShowId?.hallId.name}</p> */}
                <p className="w-2/12  px-2">
                  {ticket.movieShowId
@@ -153,17 +153,19 @@ const ReviewsPage = () => {
                    : "Dummy Movie title"}
                </p>
                <p className="w-2/12  px-2">
-                 {ticket.seats.booked
-                   ? ticket.seats.booked.join(",")
-                   : "1,23,5"}
+                 {ticket.seats.booked.map((seat) => {
+                   return <span key={seat.seatNumber}>{seat.seatNumber},</span>;
+                 })}
                </p>
                <p className="w-2/12 px-2">
-                 {ticket.order?.snacks
-                   ? ticket.order?.snacks.join(",")
-                   : "water,chips,donat"}
+                 {ticket.order.snacks.map((snack) => {
+                   return (
+                     <span key={snack.snackId.name}>{snack.snackId.name},</span>
+                   );
+                 })}
                </p>
-               {/* <p className="w-1/12  px-2">{ticket.movieShowId?.hallId.name}</p> */}
                <p className="w-2/12 px-2">{ticket.userId.email}</p>
+               <p className="w-2/12 px-2">{ticket.price}</p>
              </li>
            ))
          )}
@@ -173,149 +175,3 @@ const ReviewsPage = () => {
 };
 
 export default ReviewsPage;
-// 'use client'
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-// import "tailwindcss/tailwind.css";
-
-// interface Booking {
-//   day: string;
-//   day: string;
-//   movieShowId: string;
-//   createdAt: string;
-//   hallId: string;
-//   name: string;
-//   _id: string;
-// }
-
-// interface Movie {
-//   movieId: string;
-//   averageRating: number;
-//   country: string;
-//   description: string;
-//   duration: string;
-//   genre: string[];
-//   poster: string;
-//   releaseDate: string;
-//   reviewId: string[];
-//   starsId: string[];
-//   title: string;
-//   __v: number;
-//   _id: string;
-// }
-
-// interface ShowTime {
-//   time: string;
-//   status: string;
-// }
-
-// interface Order {
-//   _id: string;
-//   snacks: { snackId: string; quantity: number }[];
-//   price: number;
-// }
-
-// interface Seat {
-//   seatNumber: string;
-//   _id: string;
-// }
-
-// interface User {
-//   email: string;
-//   _id: string;
-// }
-
-// interface BookingInfo {
-//   day: string;
-//   day: string;
-//   movieShowId: string;
-//   createdAt: string;
-//   hallId: string;
-//   name: string;
-//   // _id: string;
-//   movie: Movie;
-//   selectedSeat?: string[]; // Make selectedSeat optional
-//   showTime?: ShowTime[]; // Make showTime optional
-//   order: Order;
-//   seats: { booked: Seat[] };
-//   status: string;
-//   time: string;
-//   userId: User;
-//   price: number;
-//   __v: number;
-//   _id: string;
-// }
-
-// const fetchBookingData = async (): Promise<BookingInfo[]> => {
-//   try {
-//     const response = await axios.get<BookingInfo[]>(
-//       "https://abissinia-backend.vercel.app/api/bookings"
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching booking data:", error);
-//     throw error;
-//   }
-// };
-
-// const BookingTable = () => {
-//   const [bookingData, setBookingData] = useState<BookingInfo[]>([]);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const data = await fetchBookingData();
-//         console.log("Fetched booking data:", data);
-//         setBookingData(data);
-//       } catch (error) {
-//         console.error("Error:", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-2xl font-bold mb-4">Booking Data</h1>
-//       <div className="overflow-x-auto">
-//         <table className="min-w-full bg-white">
-//           <thead>
-//             <tr>
-//               <th className="py-2 px-4 border-b">Movie Title</th>
-//               <th className="py-2 px-4 border-b">Selected Seats</th>
-//               <th className="py-2 px-4 border-b">Time & Date</th>
-//               <th className="py-2 px-4 border-b">Username (Email)</th>
-//               <th className="py-2 px-4 border-b">Price</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {bookingData.map((booking) => (
-//               <tr key={booking._id}>
-//                 <td className="py-2 px-4 border-b">
-//                   {booking.movie?.title ?? "N/A"}
-//                 </td>
-//                 <td className="py-2 px-4 border-b">
-//                   {booking.selectedSeat
-//                     ? booking.selectedSeat.join(", ")
-//                     : "N/A"}
-//                 </td>
-//                 <td className="py-2 px-4 border-b">
-//                   {booking.showTime
-//                     ? booking.showTime
-//                         .map((show) => `${show.time} (${booking.day})`)
-//                         .join(", ")
-//                     : "N/A"}
-//                 </td>
-//                 <td className="py-2 px-4 border-b">{booking.userId.email}</td>
-//                 <td className="py-2 px-4 border-b">${booking.price}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default BookingTable;
