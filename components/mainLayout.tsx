@@ -46,7 +46,7 @@ useEffect(() => {
   return (
     <div className="bg-[#1D2132] w-full min-h-screen">
       <div className="flex justify-start items-start px-5">
-        <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
+        {user && <aside className=" bg-[#1D2132] text-white  rounded-lg w-70 p-2">
           <ul>
             <li className=" mb-16">
               <Image
@@ -139,7 +139,7 @@ useEffect(() => {
               <Link href="/stars">Stars</Link>
             </li>
           </ul>
-        </aside>
+        </aside>}
 
         <main className="flex-1 mt-40 mx-10">{children}</main>
       </div>
